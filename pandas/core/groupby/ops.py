@@ -22,7 +22,7 @@ from pandas._libs import (
     NaT,
     lib,
 )
-import pandas as pd
+
 import pandas._libs.groupby as libgroupby
 from pandas._typing import (
     ArrayLike,
@@ -1047,12 +1047,6 @@ class BaseGrouper:
         if getattr(self, "dropna", True):
             # Remove NA values only if dropna=True
             result = result[result >= 0]
-        else:
-            # Ensure NA values are retained correctly
-            if isinstance(self.ids, pd.arrays.ArrowExtensionArray):
-                mask = self.ids.isna()
-                result = result[~mask]  # Retain NA when dropna=False
-
         return result
 
 
