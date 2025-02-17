@@ -22,6 +22,7 @@ from pandas._libs import (
     NaT,
     lib,
 )
+import pandas as pd
 import pandas._libs.groupby as libgroupby
 from pandas._typing import (
     ArrayLike,
@@ -1040,10 +1041,18 @@ class BaseGrouper:
     @cache_readonly
     def _sorted_ids(self) -> npt.NDArray[np.intp]:
         result = self.ids.take(self.result_ilocs)
+        
         if getattr(self, "dropna", True):
-            # BinGrouper has no dropna
+            # Remove NA values only if dropna=True
             result = result[result >= 0]
+        else:
+            # Ensure NA values are retained correctly
+            if isinstance(self.ids, pd.arrays.ArrowExtensionArray):
+                mask = self.ids.isna()
+                result = result[~mask]  # Retain NA when dropna=False
+
         return result
+
 
 
 class BinGrouper(BaseGrouper):
