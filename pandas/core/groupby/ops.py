@@ -1042,6 +1042,8 @@ class BaseGrouper:
     def _sorted_ids(self) -> npt.NDArray[np.intp]:
         result = self.ids.take(self.result_ilocs)
         
+        print("Hello!")
+
         if getattr(self, "dropna", True):
             # Remove NA values only if dropna=True
             result = result[result >= 0]
