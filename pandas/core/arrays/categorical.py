@@ -444,6 +444,7 @@ class Categorical(NDArrayBackedExtensionArray, PandasObject, ObjectStringArrayMi
                 values = arr
 
         if dtype.categories is None:
+            print("Here!")
             if isinstance(values.dtype, ArrowDtype) and issubclass(
                 values.dtype.type, CategoricalDtypeType
             ):
