@@ -448,7 +448,7 @@ class Categorical(NDArrayBackedExtensionArray, PandasObject, ObjectStringArrayMi
             if isinstance(values.dtype, ArrowDtype) and issubclass(
                 values.dtype.type, CategoricalDtypeType
             ):
-                if isinstance(values, Index):
+                if values.__class__.__name__ == 'Index':
                     arr = values._data._pa_array.combine_chunks()
                 else:
                     arr = values._pa_array.combine_chunks()
